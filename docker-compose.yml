@@ -1,0 +1,42 @@
+version: '3.8'
+services:
+  inventory-service:
+    build:
+      context: ./inventory-service
+      dockerfile: Dockerfile
+    ports:
+      - "8081:8080"
+    networks:
+      - keycloack-net
+
+  order-service:
+    build:
+      context: ./order-service
+      dockerfile: Dockerfile
+    ports:
+      - "8082:8080"
+    networks:
+      - keycloack-net
+
+  ecom-app-angular:
+    build:
+      context: ./ecom-app-angular
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    networks:
+      - keycloack-net
+
+  keycloak:
+    image: jboss/keycloak
+    environment:
+      - KEYCLOAK_USER=admin
+      - KEYCLOAK_PASSWORD=admin
+    ports:
+      - "8080:8080"
+    networks:
+      - keycloack-net
+
+networks:
+  mynetwork:
+    driver: bridge
